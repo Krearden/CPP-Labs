@@ -121,7 +121,7 @@ int main() {
             }
             else
             {
-                y = 4 - x;
+                y = 5 - x;
                 h = y  * mashtab + 0.5;
                 changeH(h, y, mashtab, true);
             }
