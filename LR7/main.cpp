@@ -95,6 +95,21 @@ short countBitsOfNumber(unsigned short number)
     return counter;
 }
 
+//заполняет второй массив в соотв. с заданием
+void fillSecondArray(unsigned short *array, unsigned short *second_array, const short N)
+{
+    short counter = 0;
+    for (short i = 0; i < N; i++)
+    {
+        if (countBitsOfNumber(array[i]) % 3 != 0)
+        {
+            second_array[counter] = array[i];
+            counter++;
+        }
+    }
+}
+
+
 //напечатать меню
 void printmenu()
 {
@@ -110,7 +125,7 @@ int main() {
     system("chcp 65001");
     char do_again;
     short temp, fill_way, STEP, x1;
-    short action = 1;
+    short action;
 
     do
     {
@@ -140,28 +155,22 @@ int main() {
             scanf("%d", &x1);
             arrayFillStep(array, N, x1, STEP);
         }
-
+        int otladka;
         //заполним второй массив в соотв. с заданием
+        //счтиаем, сколько элементов будет во втором массиве
         short allowed_count_of_bits_counter = 0;
-        short counter = 0;
         for (short i = 0; i < N; i++)
         {
             if (countBitsOfNumber(array[i]) % 3 != 0)
                 allowed_count_of_bits_counter++;
         }
+        //заполним второй массив в соотв. с заданием
         unsigned short second_array[allowed_count_of_bits_counter];
-        for (short i = 0; i < N; i++)
-        {
-            if (countBitsOfNumber(array[i]) % 3 != 0)
-            {
-                second_array[counter] = array[i];
-                counter++;
-            }
-        }
-
+        fillSecondArray(array, second_array, N);
 
 
         //меню
+        action = -1;
         while (action != 0)
         {
             printmenu();
