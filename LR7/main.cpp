@@ -155,7 +155,7 @@ int main() {
             scanf("%d", &x1);
             arrayFillStep(array, N, x1, STEP);
         }
-        int otladka;
+        
         //заполним второй массив в соотв. с заданием
         //счтиаем, сколько элементов будет во втором массиве
         short allowed_count_of_bits_counter = 0;
