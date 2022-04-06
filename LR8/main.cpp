@@ -121,7 +121,45 @@ void findClosestAndFarestPointsAndChangeTheirPlaces(Point *array_points, short s
 //найти в массиве две точки, расстояние между которыми наибольшее
 void findPointsWithMaxDistanceBetweenThem(Point *array_points, short size)
 {
+    float max_distance = DBL_MIN;
+    float current_distance;
+    Point pa, pb;
+    for (short i = 0; i < size; i++)
+    {
+        for (short j = 0; j < size; j++)
+        {
+            if (j != i)
+            {
+                current_distance = findDistanceBetweenPointAndAnotherPoint(array_points[i], array_points[j]);
+                if (current_distance > max_distance)
+                {
+                    max_distance = current_distance;
+                    pa = array_points[i];
+                    pb = array_points[j];
+                }
+            }
+        }
+    }
+    //выведем найденные точки и расстояние между ними
+    printf("\nНиже расположена информация о двух точках, расстояние между которыми наибольшее.\n");
+    printpoint(pa);
+    printpoint(pb);
+    printf("Расстояние: %f", max_distance);
 
+}
+
+//переместить в начало массива точки, лежащие в окружности заданного радиуса расположенной в начале координат
+void relocatePointsInSpecificRadiusToTheBeginningOfArray(Point *array_points, short size, float R)
+{
+    float temp;
+    for (short i = 0; i < size; i++)
+    {
+        temp = findDistanceBetweenPointAndTheOriginOfCoordinates(array_points[i]);
+        if (temp < R && i > 0)
+        {
+            //do what?
+        }
+    }
 }
 
 //напечатать меню
@@ -144,7 +182,8 @@ void printmenu()
 int main() {
     system("chcp 65001");
     char do_again;
-    short temp, choise, STEP, x1, action;
+    short temp, choise, STEP, x1, action
+    float R;
 
     do
     {
@@ -200,10 +239,12 @@ int main() {
                     findClosestAndFarestPointsAndChangeTheirPlaces(array_points, size);
                     break;
                 case 3:
-
+                    findPointsWithMaxDistanceBetweenThem(array_points, size);
                     break;
                 case 4:
-
+                    printf("\nВведите радиус: ");
+                    scanf("%f", &R);
+                    relocatePointsInSpecificRadiusToTheBeginningOfArray(array_points, size, R);
                     break;
                 case 5:
                     break;
