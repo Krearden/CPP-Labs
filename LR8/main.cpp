@@ -151,13 +151,23 @@ void findPointsWithMaxDistanceBetweenThem(Point *array_points, short size)
 //переместить в начало массива точки, лежащие в окружности заданного радиуса расположенной в начале координат
 void relocatePointsInSpecificRadiusToTheBeginningOfArray(Point *array_points, short size, float R)
 {
-    float temp;
+    float temp, temp_2;
+    Point temp_array[size];
     for (short i = 0; i < size; i++)
     {
         temp = findDistanceBetweenPointAndTheOriginOfCoordinates(array_points[i]);
-        if (temp < R && i > 0)
+        if (temp < R)
         {
-            //do what?
+            for (short j = 0; j < size; j++)
+            {
+                if (j < i)
+                {
+                    temp_2 = findDistanceBetweenPointAndTheOriginOfCoordinates(array_points[j]);
+                    if (temp_2 >= R)
+                        swapPointsInArray(array_points[i], array_points[j]);
+                }
+
+            }
         }
     }
 }
@@ -182,7 +192,7 @@ void printmenu()
 int main() {
     system("chcp 65001");
     char do_again;
-    short temp, choise, STEP, x1, action
+    short temp, choise, STEP, x1, action;
     float R;
 
     do
