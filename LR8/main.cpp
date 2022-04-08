@@ -7,6 +7,8 @@
 //Лабораторная работа 8, вариант № 13
 //Выполнил студент 2-го курса физического факультета Запорожченко Кирилл (ФЗ-12)
 
+#define FILE_PATH "array_points.dat"
+
 //чиста буфера scanf()
 void cleanScanfBuffer()
 {
@@ -172,6 +174,60 @@ void relocatePointsInSpecificRadiusToTheBeginningOfArray(Point *array_points, sh
     }
 }
 
+//Отсортировать массив по расстоянию от начала координат
+void bubbleSortArrayPointsBasedOnDistanceFromTheOriginOfCoordinates(Point *array_points, short size)
+{
+    for (short i = 0; i < size; i++)
+    {
+        for (short j = 0; j < size - 1; j++)
+        {
+            if (findDistanceBetweenPointAndTheOriginOfCoordinates(array_points[j]) >
+                    findDistanceBetweenPointAndTheOriginOfCoordinates(array_points[j + 1]))
+            {
+                swapPointsInArray(array_points[j], array_points[j + 1]);
+            }
+        }
+    }
+}
+
+//записать массив в файл
+void writeArrayPointsToFile(Point *array_points, short size)
+{
+    FILE *fp;
+    fp = fopen(FILE_PATH, "wb");
+    printf("\nЗапись информации в файл.");
+    for (short i = 0; i < size; i++)
+    {
+        fwrite(&array_points[i], sizeof(Point), 1, fp);
+    }
+    fclose(fp);
+}
+
+//подсчет кол-ва точек в файле
+int CountStructs(FILE* fp)
+{
+    int size;
+    fseek(fp, 0L, SEEK_END); // Переходим в конец файла
+    size = ftell(fp); // Читаем позицию - это и будет длина файла
+    fseek(fp, 0L, SEEK_SET); // Переходим снова в начало файла
+    return size / sizeof(Point); // Кол-во структур
+}
+
+//прочитать файл и вывести на экран (основной массив не меняется)
+void readArrayPointsFromFileAndPrintItOnScreen()
+{
+    FILE *fp;
+    fp = fopen(FILE_PATH, "rb");
+    short n, size = CountStructs(fp);
+    Point array_points_from_file[size];
+    n =  fread(array_points_from_file, sizeof(Point), size, fp);
+    if (n == 0)
+        printf("\nОшибка при чтении из файла");
+    else
+        printarray(array_points_from_file, size);
+
+}
+
 //напечатать меню
 void printmenu()
 {
@@ -257,10 +313,13 @@ int main() {
                     relocatePointsInSpecificRadiusToTheBeginningOfArray(array_points, size, R);
                     break;
                 case 5:
+                    bubbleSortArrayPointsBasedOnDistanceFromTheOriginOfCoordinates(array_points, size);
                     break;
                 case 6:
+                    writeArrayPointsToFile(array_points, size);
                     break;
                 case 7:
+                    readArrayPointsFromFileAndPrintItOnScreen();
                     break;
                 default:
                     break;
