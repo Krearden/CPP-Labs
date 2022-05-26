@@ -48,10 +48,6 @@ public:
         unsigned short data_array[] = {0, 0};
         setInputsWithDataArray(data_array);
     }
-//    LogicalElementAND(unsigned short number_of_inputs)
-//    {
-//        this->number_of_inputs = number_of_inputs;
-//    }
     LogicalElementAND(unsigned short number_of_inputs, unsigned short *data_array)
     {
         this->number_of_inputs = number_of_inputs;

@@ -67,14 +67,25 @@ void printarray(LogicalElementAND *array, short size)
     printf("|------|----------------------|------------|---------------|\n");
 }
 
+//print info about specified element
+void printElementinfo(LogicalElementAND element)
+{
+    printf("\n|----------------------|------------|---------------|\n");
+    printf("|  number of inputs    |  inputs    |  exit signal  |\n");
+    printf("|----------------------|------------|---------------|\n");
+    printf("|                %5d |   %8s |             %d |\n", element.getNumberOfInputs(), element.getInputsAsString(), element.findExitSignal());
+    printf("|----------------------|------------|---------------|\n");
+}
+
 //напечатать меню
 void printmenu()
 {
     printf("\n\nМеню:"
            "\n1 - напечатать массив"
            "\n2 - задать параметры элементов вручную (логические входы вводятся в виде строки типа ""1101..."".)"
-           "\n3 - задать параменты элементов с шагом (количество логических входов заполняется с шагом (2->3->4->8)). Сами входы заполняются "
-           "      случайными значениями при помощи массива данных типа [1, 1, 0, 1, ... , 0].)"
+           "\n3 - задать параменты элементов с шагом (количество логических входов заполняется с шагом (2->3->4->8)). "
+           "\n    Сами входы заполняются случайными значениями при помощи массива данных типа [1, 1, 0, 1, ... , 0].)"
+           "\n4 - демонстрация функционала (все конструкторы и сравнение объектов)"
            "\n0 - выйти из меню");
 }
 
@@ -110,8 +121,29 @@ int main() {
                 case 2:
                     defineElementsByHand(logical_ands_array, size);
                     break;
-                default:
+                case 3:
                     defineElementsWithStep(logical_ands_array, size);
+                    break;
+                case 4:
+                    //создание элемента с конструктором для задания логических входов Строкой
+                    const char string[] = "1111";
+                    LogicalElementAND logical_one(4, string);
+                    //создание элемента с конструктором для задания логических входов Массивом данных
+                    unsigned short data_array[] = {1, 0};
+                    LogicalElementAND logical_two(2, data_array);
+                    printf("\nElement ""logical_one"":");
+                    printElementinfo(logical_one);
+                    printf("\nElement ""logical_two"":");
+                    printElementinfo(logical_two);
+                    //логические операции сравнения
+                    bool equal, is_grater, is_lesser;
+                    equal = logical_one == logical_two;
+                    is_grater = logical_one > logical_two;
+                    is_lesser = logical_one < logical_two;
+                    printf("\nПерезагруженные логические операции над элементами:");
+                    printf("\nlogical_one == logical_two: %s", equal ? "True" : "False");
+                    printf("\nlogical_one > logical_two: %s", is_grater ? "True" : "False");
+                    printf("\nlogical_one < logical_two: %s", is_lesser ? "True" : "False");
                     break;
             }
 
