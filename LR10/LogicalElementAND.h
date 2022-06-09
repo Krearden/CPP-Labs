@@ -9,13 +9,7 @@
 
 #define AMOUNT_OF_OK_INPUTS 4
 #define MAX_NUMBER_OF_INPUTS 8
-////get length of unsigned short array DONT WORK CORRECTLY
-//unsigned short getLengthOfUnsignedShortArray(unsigned short *array)
-//{
-//    if (array)
-//        return sizeof(array) / sizeof(array[0]);
-//    return 0;
-//}
+
 #include "iostream"
 
 //проверка подходящее ли число для количества входов логического "И"
