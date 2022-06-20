@@ -7,8 +7,8 @@
 
 #endif //LR11_GRAPH_H
 
-#include "cmath";
-#include <stdio.h>;
+#include "cmath"
+#include <stdio.h>
 
 
 
@@ -19,10 +19,11 @@ protected:
     int a, b, c;
     int h;
     float x, y;
-    int mashtab = 10;
+    int mashtab_y = 10;
+    int mashtab_x = 10;
     char point = '*';
     //virtual functions
-    virtual int count_y_value() = 0;
+    virtual float count_y_value() = 0;
     //фукнция - изменить количество пробелов для печати.
     void changeH();
 public:
@@ -35,50 +36,61 @@ public:
         set_b(b);
         set_c(c);
     }
-    Graph(int a, int b, int c, int mashtab)
+    Graph(int a, int b, int c, int mashtab_y)
     {
         set_a(a);
         set_b(b);
         set_c(c);
-        setMashtab(mashtab);
+        setmashtab_y(mashtab_y);
     }
     //setters
-    void setMashtab(int mashtab)
+    void setmashtab_y(int mashtab_y_to_set)
     {
-        if (mashtab > 0)
-            this->mashtab = mashtab;
+        if (mashtab_y_to_set > 0)
+            this->mashtab_y = mashtab_y_to_set;
         else
-            this->mashtab = 10;
+            this->mashtab_y = 10;
     }
-    void setPoint(char point)
+    void setmashtab_x(int mashtab_x_to_set)
     {
-        this->point = point;
+        if (mashtab_x_to_set > 0)
+            this->mashtab_x = mashtab_x_to_set;
+        else
+            this->mashtab_x = 10;
     }
-    void set_a(int a)
+    void setPoint(char point_to_set)
+    {
+        this->point = point_to_set;
+    }
+    void set_a(int a_to_set)
     {
         if (a >= -10 && a <= 10)
-            this->a = a;
+            this->a = a_to_set;
         else
             this->a = 1;
     }
-    void set_b(int b)
+    void set_b(int b_to_set)
     {
         if (b >= -10 && b <= 10)
-            this->b=b;
+            this->b = b_to_set;
         else
             this->b = 1;
     }
-    void set_c(int c)
+    void set_c(int c_to_set)
     {
         if (c >= -10 && c <= 10)
-            this->c = c;
+            this->c = c_to_set;
         else
             this->c = 1;
     }
     //getters
-    int getMashtab()
+    int getmashtab_y()
     {
-        return this->mashtab;
+        return this->mashtab_y;
+    }
+    int getmashtab_x()
+    {
+        return this->mashtab_x;
     }
     char getPoint()
     {
@@ -101,19 +113,15 @@ public:
     {
         printf("|   x   |      y     |\n");
         printf("|-------|------------|\n");
-        for (short n = 0; n < 5; n++)
+        for (x = 0; x < mashtab_x; x += 0.25)
         {
+            count_y_value();
+            changeH();
+            printf("| %5.2lf | %10.7lf | ", x, y);
+            for (; this->h > 0; h--)
+                printf(" ");
+            printf("%c\n", point);
 
-            for (x = 0; x < 4; x += 0.25)
-            {
-                count_y_value();
-                changeH();
-                printf("| %5.2lf | %10.7lf | ", (x + n * 4), this->y);
-                for (; this->h > 0; this->h--)
-                    printf(" ");
-                printf("%c\n", this->point);
-
-            }
         }
         printf("|-------|------------|\n");
     }
@@ -121,15 +129,17 @@ public:
 //фукнция класса Graph - изменить количество пробелов для печати
 void Graph::changeH()
 {
-    h = y * mashtab/2 + mashtab/2 + 0.5;
+    h = y * mashtab_y/2 + mashtab_y/2 + 0.5;
 }
 
 
 //класс GpaphSin
 class GraphSin : public Graph {
 protected:
-    int count_y_value() {
+    float count_y_value()
+    {
         this->y = a * sin(b * x + c);
+        return this->y;
     }
 public:
     GraphSin() : Graph() {
@@ -142,11 +152,11 @@ public:
         this->b = b;
         this->c = c;
     }
-    GraphSin(int a, int b, int c, int mashtab) : Graph(a, b, c, mashtab) {
+    GraphSin(int a, int b, int c, int mashtab_y) : Graph(a, b, c, mashtab_y) {
         this->a = a;
         this->b = b;
         this->c = c;
-        this->mashtab = mashtab;
+        this->mashtab_y = mashtab_y;
     }
 };
 
@@ -154,9 +164,10 @@ public:
 class GraphTg : public Graph
 {
 protected:
-    int count_y_value()
+    float count_y_value()
     {
         this->y = a * tan(b * x + c);
+        return this->y;
     }
 public:
     GraphTg() : Graph() {
@@ -169,11 +180,11 @@ public:
         this->b = b;
         this->c = c;
     }
-    GraphTg(int a, int b, int c, int mashtab) : Graph(a, b, c, mashtab) {
+    GraphTg(int a, int b, int c, int mashtab_y) : Graph(a, b, c, mashtab_y) {
         this->a = a;
         this->b = b;
         this->c = c;
-        this->mashtab = mashtab;
+        this->mashtab_y = mashtab_y;
     }
 };
 
@@ -181,9 +192,10 @@ public:
 class GraphExp : public Graph
 {
 protected:
-    int count_y_value()
+    float count_y_value()
     {
         this->y = a * exp(b * x);
+        return this->y;
     }
 public:
     GraphExp() : Graph() {
@@ -194,9 +206,9 @@ public:
         this->a = a;
         this->b = b;
     }
-    GraphExp(int a, int b, int mashtab) : Graph(a, b, c, mashtab) {
+    GraphExp(int a, int b, int mashtab_y) : Graph(a, b, c, mashtab_y) {
         this->a = a;
         this->b = b;
-        this->mashtab = mashtab;
+        this->mashtab_y = mashtab_y;
     }
 };
